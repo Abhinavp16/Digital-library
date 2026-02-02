@@ -14,6 +14,7 @@ import Book from './components/BookGridView';
 import AdminLayout from './components/AdminLayout';
 import Contents from './components/Contents';
 import TeacherLayout from './components/TeacherLayout';
+import StudentLayout from './components/StudentLayout';
 import Syllabus from './components/syllabus';
 
 function App() {
@@ -25,7 +26,7 @@ function App() {
 
     // Reset the user role in the component's state
     setUserRole('');
-  
+
   };
 
 
@@ -33,8 +34,9 @@ function App() {
     <Router>
       <div className="App">
         {/* Conditional rendering of the Sidebar based on user's authentication status */}
-        {userRole === 'admin' && <AdminLayout setUserRole={setUserRole} handleSignOut={handleSignOut}/>}
-        {userRole === 'teacher' && <TeacherLayout setUserRole={setUserRole} handleSignOut={handleSignOut}/>}
+        {userRole === 'admin' && <AdminLayout setUserRole={setUserRole} handleSignOut={handleSignOut} />}
+        {userRole === 'teacher' && <TeacherLayout setUserRole={setUserRole} handleSignOut={handleSignOut} />}
+        {userRole === 'student' && <StudentLayout handleSignOut={handleSignOut} />}
 
         {/* Define Routes */}
         <Routes>
@@ -47,22 +49,23 @@ function App() {
             <>
               <Route path="/admin/dashboard" element={<AdminDashboard setUserRole={setUserRole} />} />
               <Route path="/admin/teachers" element={<AdminTeachers setUserRole={setUserRole} />} />
-              <Route path="/admin/students" element={<AdminStudents setUserRole={setUserRole}/>} />
-              <Route path="/admin/books" element={<AdminBooks setUserRole={setUserRole}/>} />
-              <Route path="/admin/contents" element={<AdminContents setUserRole={setUserRole}/>} />
+              <Route path="/admin/students" element={<AdminStudents setUserRole={setUserRole} />} />
+              <Route path="/admin/books" element={<AdminBooks setUserRole={setUserRole} />} />
+              <Route path="/admin/contents" element={<AdminContents setUserRole={setUserRole} />} />
             </>
           )}
           {userRole === 'teacher' && (
             <>
               <Route path="/teacher/dashboard" element={<TeacherDashboard setUserRole={setUserRole} />} />
-              <Route path="/admin/students" element={<AdminStudents setUserRole={setUserRole}/>} />
+              <Route path="/admin/students" element={<AdminStudents setUserRole={setUserRole} />} />
               <Route path="/admin/books" element={<AdminBooks />} />
-              <Route path="/admin/contents" element={<AdminContents setUserRole={setUserRole}/>} />
+              <Route path="/admin/contents" element={<AdminContents setUserRole={setUserRole} />} />
             </>
           )}
           <Route path="/student/books" element={<BookGridView />} />
           <Route path="/student/contents" element={<StudentContent />} />
         </Routes>
+
       </div>
     </Router>
   );

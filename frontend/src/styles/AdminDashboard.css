@@ -1,109 +1,268 @@
 /* AdminDashboard.css */
 
+:root {
+  --sidebar-bg: rgba(25, 28, 41, 0.95);
+  --accent-color: #ff9900;
+  --accent-glow: rgba(255, 153, 0, 0.4);
+  --text-main: #ffffff;
+  --text-muted: #b0b3b8;
+  --glass-border: rgba(255, 255, 255, 0.1);
+  --hover-bg: rgba(255, 153, 0, 0.15);
+  --transition-speed: 0.3s;
+}
+
 /* Sidebar Container */
 .admin-dashboard {
-  background-color: #2a2e3b; /* Dark background color */
-  color: #fff; /* Text color */
-  width: 250px; /* Sidebar width */
-  height: 100%;
+  background: var(--sidebar-bg);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  color: var(--text-main);
+  width: 280px;
+  height: 100vh;
   position: fixed;
   top: 0;
   left: 0;
-  padding-top: 20px;
-  transition: width 0.3s ease; /* Smooth width transition */
-  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2); /* Slight sidebar shadow */
+  border-right: 1px solid var(--glass-border);
+  box-shadow: 10px 0 30px rgba(0, 0, 0, 0.3);
   display: flex;
   flex-direction: column;
-  align-items: center; /* Center-align content vertically */
+  overflow: hidden;
+  animation: slideInSidebar 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94) both;
+  z-index: 1000;
 }
 
-/* Logo Style */
-.logo {
-  text-align: center;
-  font-size: 1.5rem;
-  margin-bottom: 20px;
-  color: #ff9900; /* Accent color for the logo */
-  font-weight: bold; /* Make the logo text bold */
-  text-transform: uppercase; /* Uppercase logo text */
+@keyframes slideInSidebar {
+  from {
+    transform: translateX(-100%);
+    opacity: 0;
+  }
+
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
 }
 
-/* Navigation Links */
+.dashboard-content {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  padding: 30px 20px;
+}
+
+/* Logo Section */
+.logo-section {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  margin-bottom: 50px;
+  padding: 0 10px;
+  animation: fadeIn 0.8s ease-out 0.2s both;
+}
+
+.logo-icon {
+  font-size: 2rem;
+  color: var(--accent-color);
+  filter: drop-shadow(0 0 8px var(--accent-glow));
+  animation: pulse 2s infinite ease-in-out;
+}
+
+.logo-text {
+  font-size: 1.4rem;
+  font-weight: 800;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  background: linear-gradient(45deg, var(--accent-color), #ffcc33);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+/* Navigation */
+.nav-container {
+  flex-grow: 1;
+}
+
 .nav-links {
-  list-style-type: none;
+  list-style: none;
   padding: 0;
+  margin: 0;
   display: flex;
   flex-direction: column;
-  align-items: center; /* Align content to the left */
-  margin-top: 10px; /* Add space between logo and links */
+  gap: 8px;
 }
 
-.nav-links li {
-  margin-bottom: 10px;
+.nav-item {
+  opacity: 0;
+  transform: translateX(-20px);
+  animation: slideInItem 0.5s ease-out forwards;
 }
 
-/* NavLink Styles */
+.nav-item:nth-child(1) {
+  animation-delay: 0.3s;
+}
+
+.nav-item:nth-child(2) {
+  animation-delay: 0.4s;
+}
+
+.nav-item:nth-child(3) {
+  animation-delay: 0.5s;
+}
+
+.nav-item:nth-child(4) {
+  animation-delay: 0.6s;
+}
+
+@keyframes slideInItem {
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
 .nav-links a {
-  display: block;
-  align-items: center; /* Center-align content vertically */
-  padding: 12px 20px; /* Spacing around text */
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  padding: 14px 18px;
   text-decoration: none;
-  color: #fff;
-  font-size: 18px; /* Font size */
-  transition: background-color 0.3s ease, color 0.3s ease;
-  border-radius: 20px; /* Rounded corners for links */
-  transition: transform 0.2s ease-in-out; /* Smooth hover effect */
+  color: var(--text-muted);
+  font-size: 1.05rem;
+  font-weight: 500;
+  border-radius: 12px;
+  transition: all var(--transition-speed) cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+  overflow: hidden;
+}
+
+.nav-links a .icon {
+  font-size: 1.2rem;
+  width: 24px;
+  display: flex;
+  justify-content: center;
+  transition: transform 0.3s ease;
 }
 
 .nav-links a:hover {
-  background-color: #ff9900; /* Hover background color */
-  color: #333; /* Hover text color */
-  transform: scale(1.05); /* Slight scale on hover for an aesthetic effect */
+  color: var(--text-main);
+  background: var(--hover-bg);
+  transform: translateX(8px);
+}
+
+.nav-links a:hover .icon {
+  transform: scale(1.2) rotate(-5deg);
+  color: var(--accent-color);
 }
 
 /* Active Link Style */
 .nav-links a.active {
-  background-color: #ff9900; /* Active link background color */
-  color: #333; /* Active link text color */
-  font-weight: bold;
-}
-/*button*/
-/* Dark-themed button styles */
-.dark-button {
-  background-color: #333; /* Dark background color */
-  color: #fff; /* White text color */
-  border: none;
-  border-radius: 5px;
-  padding: 10px 20px;
-  font-size: 16px;
-  cursor: pointer;
-  transition: background-color 0.3s ease, color 0.3s ease; /* Smooth transitions */
+  background: linear-gradient(90deg, var(--hover-bg) 0%, transparent 100%);
+  color: var(--accent-color);
+  font-weight: 600;
 }
 
-.dark-button:hover {
-  background-color: #555; /* Darker background color on hover */
-  color: #fff; /* White text color on hover */
+.nav-links a.active::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 15%;
+  height: 70%;
+  width: 4px;
+  background: var(--accent-color);
+  border-radius: 0 4px 4px 0;
+  box-shadow: 0 0 10px var(--accent-glow);
 }
 
-/* FontAwesome icon styles (adjust the color as needed) */
-.dark-button svg {
-  font-size: 18px;
-  margin-right: 5px; /* Add some spacing between the icon and text */
-  color: #fff; /* White icon color */
+/* Footer Section */
+.dashboard-footer {
+  margin-top: auto;
+  padding-top: 20px;
+  border-top: 1px solid var(--glass-border);
+  animation: fadeIn 0.8s ease-out 0.8s both;
 }
 
-/* Optional: Add a box shadow for a subtle lift effect */
-.dark-button {
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
-}
-
-/* Optional: Increase the border radius for a rounded button */
-.dark-button {
-  border-radius: 25px;
-}
-
-/* Optional: Center the button */
-.dark-button {
+.logout-button {
+  width: 100%;
   display: flex;
   align-items: center;
-  justify-content: center;
+  gap: 15px;
+  padding: 14px 18px;
+  background: transparent;
+  border: 1px solid var(--glass-border);
+  color: #ff4444;
+  border-radius: 12px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-family: inherit;
+  font-size: 1rem;
+}
+
+.logout-button:hover {
+  background: rgba(255, 68, 68, 0.1);
+  border-color: #ff4444;
+  transform: translateY(-2px);
+  box-shadow: 0 5px 15px rgba(255, 68, 68, 0.1);
+}
+
+/* Animations */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes pulse {
+  0% {
+    transform: scale(1);
+    filter: drop-shadow(0 0 8px var(--accent-glow));
+  }
+
+  50% {
+    transform: scale(1.05);
+    filter: drop-shadow(0 0 15px var(--accent-glow));
+  }
+
+  100% {
+    transform: scale(1);
+    filter: drop-shadow(0 0 8px var(--accent-glow));
+  }
+}
+
+/* Main Content Area */
+.main-content {
+  margin-left: 280px;
+  min-height: 100vh;
+  padding: 40px;
+  background: #f8f9fa;
+  transition: margin-left 0.3s ease;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .admin-dashboard {
+    width: 80px;
+  }
+
+  .logo-text,
+  .label {
+    display: none;
+  }
+
+  .logo-section {
+    justify-content: center;
+  }
+
+  .nav-links a,
+  .logout-button {
+    justify-content: center;
+    padding: 15px;
+  }
+
+  .main-content {
+    margin-left: 80px;
+  }
 }
