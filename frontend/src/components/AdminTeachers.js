@@ -24,7 +24,7 @@ const AdminTeachers = () => {
   const fetchTeachers = async () => {
     setIsLoading(true);
     try {
-      const response = await axios.get('http://10.10.61.161:3001/api/teachers/getTeachers');
+      const response = await axios.get('http://localhost:3000/api/teachers/getTeachers');
       setTeachers(response.data);
       filterTeachersByDepartment(); // Call filter function after fetching teachers
     } catch (error) {
@@ -91,7 +91,7 @@ const AdminTeachers = () => {
     formData.append('profilePhoto', editedTeacher.profilePhoto);
 
     try {
-      await axios.post('http://10.10.61.161:3001/api/teachers/addTeacher', formData);
+      await axios.post('http://localhost:3000/api/teachers/addTeacher', formData);
       fetchTeachers();
       setIsAddFormVisible(false);
       clearEditedTeacher();
@@ -102,7 +102,7 @@ const AdminTeachers = () => {
 
   const handleDeleteClick = async (teacherId) => {
     try {
-      await axios.delete(`http://10.10.61.161:3001/api/teachers/deleteTeacher/${teacherId}`);
+      await axios.delete(`http://localhost:3000/api/teachers/deleteTeacher/${teacherId}`);
       fetchTeachers();
     } catch (error) {
       console.error('Error deleting teacher:', error);
@@ -207,7 +207,7 @@ const AdminTeachers = () => {
                 <td>
                   {teacher.profilePhoto && (
                     <img
-                      src={`http://10.10.61.161:3001/api/teachers/uploads/${teacher.profile_photo}`}
+                      src={`http://localhost:3000/api/teachers/uploads/${teacher.profile_photo}`}
                       alt={teacher.name}
                       className="teacher-photo"
                     />

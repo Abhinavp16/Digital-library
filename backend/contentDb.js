@@ -2,8 +2,8 @@ const mysql = require('mysql2/promise');
 
 const contentDb = {
   config: {
-    host: '10.10.61.161',
-    user: 'disha',
+    host: 'localhost',
+    user: 'root',
     password: '',
     database: 'content_db', // Your content database name
   },

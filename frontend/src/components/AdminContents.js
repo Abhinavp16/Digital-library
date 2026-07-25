@@ -2,12 +2,7 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import moment from 'moment';
 import '../styles/AdminContent.css';
-import EditContentForm from './EditContentForm';
-import Modal from 'react-modal';
-import DatePicker from 'react-datepicker';
-import 'react-datepicker/dist/react-datepicker.css';
-import Video from './Video';
-
+import EditContentForm from './EditContentForm'; // Import the EditContentForm component
 
 const AdminContent = () => {
   const [contentList, setContentList] = useState([]);
@@ -19,23 +14,16 @@ const AdminContent = () => {
     materialType: 'notes',
     studyMaterial: null,
   });
-  const [selectedDate, setSelectedDate] = useState(null);
-  const [successMessage, setSuccessMessage] = useState('');
+
   const [isEditMode, setIsEditMode] = useState(false);
   const [editContentId, setEditContentId] = useState(null);
   const [isAddFormVisible, setIsAddFormVisible] = useState(false);
   const [teacherNameFilter, setTeacherNameFilter] = useState('');
   const [materialTypeFilter, setMaterialTypeFilter] = useState('');
 
-  const [isPdfModalOpen, setIsPdfModalOpen] = useState(false);
-  const [pdfUrl, setPdfUrl] = useState('');
-
-  const [isVideoModalOpen, setIsVideoModalOpen] = useState(false);
-  const [videoUrl, setVideoUrl] = useState('');
-
   const fetchContent = async () => {
     try {
-      const response = await axios.get('http://localhost:3001/api/content/getContentWithTeacherNames');
+      const response = await axios.get('http://localhost:3000/api/content/getContentWithTeacherNames');
       setContentList(response.data);
     } catch (error) {
       console.error('Error fetching content:', error);
@@ -52,10 +40,6 @@ const AdminContent = () => {
       ...formData,
       [name]: value,
     });
-  };
-
-  const handleDateChange = (date) => {
-    setSelectedDate(date);
   };
 
   const handleFileChange = (e) => {
@@ -76,18 +60,14 @@ const AdminContent = () => {
     data.append('category', category);
     data.append('materialType', materialType);
     data.append('studyMaterial', studyMaterial);
-    data.append('uploadedAt', moment(selectedDate).format('YYYY-MM-DD'));
-   
-    
+
     try {
       if (isEditMode) {
-        await axios.put(`http://localhost:3001/api/content/updateContent/${editContentId}`, data);
+        await axios.put(`http://localhost:3000/api/content/updateContent/${editContentId}`, data);
         setIsEditMode(false);
         setEditContentId(null);
-        setSuccessMessage('Content updated successfully!');
       } else {
-        await axios.post('http://localhost:3001/api/content/addContent', data);
-        setSuccessMessage('Content added successfully!');
+        await axios.post('http://localhost:3000/api/content/addContent', data);
       }
 
       fetchContent();
@@ -106,9 +86,8 @@ const AdminContent = () => {
       materialType: 'notes',
       studyMaterial: null,
     });
-    setSelectedDate(null); // Clear the selected date
   };
-  
+
   const handleEditContentField = async (contentId, field, value) => {
     try {
       await axios.put(`http://localhost:3000/api/content/updateContentField/${contentId}`, {
@@ -154,15 +133,27 @@ const AdminContent = () => {
   const renderStudyMaterial = (content) => {
     if (content.material_type === 'notes') {
       return (
-        <button onClick={() => openPdfModal(`http://localhost:3001/api/content/getPdf/${content.study_material}`)}>
-          View PDF
-        </button>
+        <div className="pdf-viewer">
+          <a
+            href={`http://localhost:3000/api/content/getPdf/${content.study_material}`}
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            View PDF
+          </a>
+        </div>
       );
     } else if (content.material_type === 'videos') {
       return (
-        <button onClick={() => openVideoModal(`http://localhost:3000/api/content/getVideo/${content.study_material}`)}>
-          View Video
-        </button>
+        <div className="video-viewer">
+          <a
+            href={`http://localhost:3000/api/content/getVideo/${content.study_material}`}
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            View Video
+          </a>
+        </div>
       );
     } else if (content.material_type === 'ppt') {
       return (
@@ -191,27 +182,6 @@ const AdminContent = () => {
   const teacherNames = [...new Set(contentList.map((content) => content.teacher_name))];
   const materialTypes = [...new Set(contentList.map((content) => content.material_type))];
 
-  const openPdfModal = (url) => {
-    setPdfUrl(url);
-    setIsPdfModalOpen(true);
-  };
-
-  const closePdfModal = () => {
-    setPdfUrl('');
-    setIsPdfModalOpen(false);
-  };
-
-  const openVideoModal = (url) => {
-    setVideoUrl(url);
-    setIsVideoModalOpen(true);
-  };
-
-  const closeVideoModal = () => {
-    setVideoUrl('');
-    setIsVideoModalOpen(false);
-  };
-
-  
   return (
     <div className="admin-content">
       <h1>Content Page</h1>
@@ -262,31 +232,15 @@ const AdminContent = () => {
             />
           </div>
           <div className="form-group">
-  <select
-    name="className"
-    value={formData.className}
-    onChange={handleInputChange}
-    required
-  >
-    <option value="">Select Class</option>
-    <option value="BCA-I">BCA-I</option>
-    <option value="BCA-II">BCA-II</option>
-    <option value="BCA-III">BCA-III</option>
-    <option value="BCom-I">BCom-I</option>
-    <option value="BCom-II">BCom-II</option>
-    <option value="BCom-III">BCom-III</option>
-    <option value="BBA-I sem">BBA-I</option>
-    <option value="BBA-II sem">BBA-II</option>
-    <option value="BBA-III sem">BBA-III</option>
-    <option value="BBA-IV sem">BBA-IV</option>
-    <option value="BBA-V sem">BBA-V</option>
-    <option value="BBA-VI sem">BBA-VI</option>
-    <option value="BSc-I">BSc-I</option>
-    <option value="BSc-II">BSc-II</option>
-    <option value="BSc-III">BSc-III</option>
-  </select>
-</div>
-
+            <input
+              type="text"
+              name="className"
+              placeholder="Class Name"
+              value={formData.className}
+              onChange={handleInputChange}
+              required
+            />
+          </div>
           <div className="form-group">
             <input
               type="text"
@@ -318,19 +272,6 @@ const AdminContent = () => {
               <option value="videos">Videos</option>
               <option value="ppt">PPT</option>
             </select>
-            <div className="form-group">
-            <label htmlFor="uploadedAt">Uploaded Date:</label>
-            <br></br>
-            <DatePicker
-              selected={selectedDate}
-              onChange={handleDateChange}
-              dateFormat="yyyy-MM-dd"
-              isClearable
-              placeholderText="Select a date"
-              showYearDropdown
-        yearDropdownItemNumber={10}
-            />
-          </div>
           </div>
           <div className="form-group">
             <input type="file" name="studyMaterial" onChange={handleFileChange} required />
@@ -338,9 +279,9 @@ const AdminContent = () => {
           <button type="submit" className="btn-primary">
             {isEditMode ? 'Update' : 'Submit'}
           </button>
-          
-        </form>
+          </form>
       )}
+      {/* Render the EditContentForm if isEditMode is true */}
       {isEditMode && editContentId && (
         <div>
           <h2>Edit Content</h2>
@@ -379,7 +320,7 @@ const AdminContent = () => {
               <td>{content.category}</td>
               <td>{content.material_type}</td>
               <td>{renderStudyMaterial(content)}</td>
-              <td>{moment(content.uploaded_at).format('MMMM DD, YYYY')}</td>
+              <td>{moment(content.uploaded_at).format('MMMM DD, YYYY HH:mm:ss')}</td>
               <td>
                 <button onClick={() => handleEditContent(content.id)}>Edit</button>
               </td>
@@ -390,32 +331,6 @@ const AdminContent = () => {
           ))}
         </tbody>
       </table>
-
-      <Modal
-        isOpen={isPdfModalOpen}
-        onRequestClose={closePdfModal}
-        contentLabel="PDF Modal"
-        className="pdf-modal"
-        overlayClassName="pdf-modal-overlay"
-      >
-        <iframe src={pdfUrl} title="PDF Viewer" width="100%" height="600px"></iframe>
-        <button className="close-pdf-button" onClick={closePdfModal}>
-          Close PDF
-        </button>
-      </Modal>
-
-      <Modal
-        isOpen={isVideoModalOpen}
-        onRequestClose={closeVideoModal}
-        contentLabel="Video Modal"
-        className="video-modal"
-        overlayClassName="video-modal-overlay"
-      >
-        <Video videoUrl={videoUrl} />
-        <button className="close-video-button" onClick={closeVideoModal}>
-          Close Video
-        </button>
-      </Modal>
     </div>
   );
 };

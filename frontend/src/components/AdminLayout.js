@@ -1,10 +1,11 @@
+// AdminLayout.js
 import React from 'react';
 import AdminDashboard from './AdminDashboard';
 
-function AdminLayout({ children, setUserRole, handleSignOut }) {
+function AdminLayout({ children }) {
   return (
     <div>
-      <AdminDashboard setUserRole={setUserRole} handleSignOut={handleSignOut} />
+      <AdminDashboard />
       <div className="content">
         {children}
       </div>

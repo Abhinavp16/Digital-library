@@ -4,19 +4,19 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import '../styles/AdminDashboard.css';
 import { faUser, faNoteSticky, faBookOpen, faGraduationCap, faSignOutAlt } from '@fortawesome/free-solid-svg-icons';
 
-const TeacherDashboard = ({ setUserRole, handleSignOut }) => {
+const TeacherDashboard = ({ setUserRole }) => {
   const navigate = useNavigate();
 
   // Function to handle the sign-out action
-  const handleSignOutButton = () => {
-    handleSignOut(); // Call the handleSignOut function to log the user out
-    navigate('/'); // Redirect to the login page
+  const handleSignOut = () => {
+    setUserRole(''); // Clear the user role
+    navigate('/'); // Navigate to the homepage
   };
 
   return (
     <div className="admin-dashboard">
       <div className="logo">Teacher Dashboard</div>
-      <ul className=" nav-links">
+      <ul className="nav-links">
         <li>
           <NavLink to="/admin/students">
             <FontAwesomeIcon icon={faGraduationCap} beatFade /> Students

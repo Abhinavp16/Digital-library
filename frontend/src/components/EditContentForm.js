@@ -20,7 +20,7 @@ const EditContentForm = ({ contentId, onEditSuccess }) => {
 
     try {
       // Make a PUT request to update the content
-      await axios.put(`http://10.10.61.161:3001/api/content/updateContent/${contentId}`, formData);
+      await axios.put(`http://localhost:3000/api/content/updateContent/${contentId}`, formData);
 
       // Notify the parent component of the edit success
       onEditSuccess();

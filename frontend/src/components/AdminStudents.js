@@ -22,7 +22,7 @@ const AdminStudents = () => {
 
   const fetchStudents = async () => {
     try {
-      const response = await axios.get('http://10.10.61.161:3001/api/students/getStudents');
+      const response = await axios.get('http://localhost:3000/api/students/getStudents');
       setStudents(response.data);
 
       // Extract unique class names from the data
@@ -65,7 +65,7 @@ const AdminStudents = () => {
     try {
       const { student_id, name, class_name, password } = editedStudent;
 
-      await axios.post('http://10.10.61.161:3001/api/students/addStudent', {
+      await axios.post('http://localhost:3000/api/students/addStudent', {
         student_id,
         name,
         class_name,
@@ -98,7 +98,7 @@ const AdminStudents = () => {
     try {
       const { student_id, name, class_name, password } = editedStudent;
 
-      await axios.put(`http://10.10.61.161:3001/api/students/updateStudent/${studentId}`, {
+      await axios.put(`http://localhost:3000/api/students/updateStudent/${studentId}`, {
         student_id,
         name,
         class_name,
@@ -114,7 +114,7 @@ const AdminStudents = () => {
 
   const handleDeleteClick = async (studentId) => {
     try {
-      await axios.delete(`http://10.10.61.161:3001/api/students/deleteStudent/${studentId}`);
+      await axios.delete(`http://localhost:3000/api/students/deleteStudent/${studentId}`);
       fetchStudents();
     } catch (error) {
       console.error('Error deleting student:', error);

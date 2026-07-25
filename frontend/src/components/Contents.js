@@ -1,9 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import moment from 'moment';
-import Modal from 'react-modal';
 import '../styles/Contents.css';
-import Video from './Video'; // Import your VideoModal component
 
 const Contents = () => {
   const [contentList, setContentList] = useState([]);
@@ -11,19 +9,12 @@ const Contents = () => {
     departmentFilter: '',
     teacherNameFilter: '',
     classNameFilter: '',
-    materialTypeFilter: '',
+    filterType: 'notes',
   });
-  const [selectedContent, setSelectedContent] = useState(null);
-  const [isVideoModalOpen, setIsVideoModalOpen] = useState(false);
-  const [videoUrl, setVideoUrl] = useState('');
-  // Track the PDF URL to display
-  const [pdfUrl, setPdfUrl] = useState(null);
 
   const fetchContent = async () => {
     try {
-      const response = await axios.get('http://10.10.61.161:3001/api/content/getContentWithTeacherNames', {
-        params: filters, // Pass the filters as query parameters
-      });
+      const response = await axios.get('http://localhost:3000/api/content/getContentWithTeacherNames');
       setContentList(response.data);
     } catch (error) {
       console.error('Error fetching content:', error);
@@ -32,7 +23,7 @@ const Contents = () => {
 
   useEffect(() => {
     fetchContent();
-  }, [filters]);
+  }, []);
 
   const handleFilterChange = (filterName, value) => {
     setFilters({
@@ -40,76 +31,34 @@ const Contents = () => {
       [filterName]: value,
     });
   };
-  // Function to handle clicking the "View PDF" link
-  const handleViewPdf = (pdfUrl) => {
-    setPdfUrl(pdfUrl);
-  };
-
-  // Function to close the PDF viewer
-  const handleClosePdfViewer = () => {
-    setPdfUrl(null);
-  };
-   // Apply filter logic to contentList
-   const filteredContent = contentList.filter((content) => {
-    if (
-      (filters.departmentFilter === '' || content.department === filters.departmentFilter) &&
-      (filters.teacherNameFilter === '' || content.teacher_name === filters.teacherNameFilter) &&
-      (filters.classNameFilter === '' || content.class_name === filters.classNameFilter) &&
-      (filters.materialTypeFilter === '' || content.material_type === filters.materialTypeFilter)
-    ) {
-      return true;
-    }
-    return false;
-  });
-
-  // Update the useState for materialTypes and selectedMaterialType
-  const [materialTypes, setMaterialTypes] = useState([]);
-  const [selectedMaterialType, setSelectedMaterialType] = useState('');
-
-  // Add a useEffect to fetch material types when the component mounts
-  useEffect(() => {
-    const fetchMaterialTypes = async () => {
-      try {
-        const response = await axios.get('http://10.10.61.161:3001/api/content/getMaterialTypes');
-        setMaterialTypes(response.data);
-      } catch (error) {
-        console.error('Error fetching material types:', error);
-      }
-    };
-
-    fetchMaterialTypes();
-  }, []);
-  const [departments, setDepartment] = useState('');
-  const [selectedDepartment, setSelectedDepartment] = useState('');
-  useEffect(() => {
-    const fetchTeacherDepartment = async () => {
-      try {
-        const response = await axios.get('http://10.10.61.161:3001/api/teachers/getDepartments');
-        setDepartment(response.data);
-      } catch (error) {
-        console.error('Error fetching Deparment:', error);
-      }
-    };
-
-    fetchTeacherDepartment();
-  }, []);
-
-  const openVideoModal = (url) => {
-    setVideoUrl(url);
-    setIsVideoModalOpen(true);
-  };
-
-  const closeVideoModal = () => {
-    setVideoUrl('');
-    setIsVideoModalOpen(false);
-  };
 
   return (
     <div className="contents-container">
       <h1 className="heading">Content Page</h1>
-      <img src="https://hitwebcounter.com/counter/counter.php?page=10275568&style=0007&nbdigits=5&type=page&initCount=1112" title="Counter Widget" Alt="Visit counter For Websites"   border="0" />
       <div className="container">
-         
+        {/* Department Filter */}
+        <div className="filter-dropdown">
+          <label htmlFor="departmentFilter" className="filter-label">
+            Department:
+          </label>
+          <select
+            id="departmentFilter"
+            name="departmentFilter"
+            value={filters.departmentFilter}
+            onChange={(e) => handleFilterChange('departmentFilter', e.target.value)}
+            className="filter-select"
+          >
+            <option value="">All Departments</option>
+            {Array.from(new Set(contentList.map((content) => content.department))).map(
+              (department) => (
+                <option key={department} value={department}>
+                  {department}
+                </option>
+              )
+            )}
+          </select>
+        </div>
+
         {/* Teacher Name Filter */}
         <div className="filter-dropdown">
           <label htmlFor="teacherNameFilter" className="filter-label">
@@ -156,90 +105,98 @@ const Contents = () => {
           </select>
         </div>
 
-        {/* Material Type Filter */}
+        {/* Category Filter */}
         <div className="filter-dropdown">
-  <label htmlFor="materialTypeFilter" className="filter-label">
-    Material Type:
-  </label>
-  <select
-    id="materialTypeFilter"
-    name="materialTypeFilter"
-    value={filters.materialTypeFilter} 
-    onChange={(e) => handleFilterChange('materialTypeFilter', e.target.value)}
-    className="filter-select"
-  >
-    <option value="">All Material Types</option>
-    {materialTypes.map((materialType) => (
-      <option key={materialType} value={materialType}>
-        {materialType}
-      </option>
-    ))}
-  </select>
-</div>
+          <label htmlFor="CategoryFilter" className="filter-label">
+            Content Type:
+          </label>
+          <select
+            id="CategoryFilter"
+            name="CategoryFilter"
+            value={filters.filterType}
+            onChange={(e) => handleFilterChange('filterType', e.target.value)}
+            className="filter-select"
+          >
+            <option value="notes">Notes</option>
+            <option value="videos">Videos</option>
+            <option value="ppt">PPT</option>
+          </select>
+        </div>
       </div>
 
       <div className="content-grid">
-      {filteredContent.map((content) => (
-          <div key={content.id} className="content-card">
-            <p className="content-info">Teacher Name: {content.teacher_name}</p>
-            <p className="content-info">Class Name: {content.class_name}</p>
-            <p className="content-info">Subject: {content.subject}</p>
-            <p className="content-info">Category: {content.category}</p>
-            <p className="content-info">Material Type: {content.material_type}</p>
-            {content.study_material && (
-              <div className="material-viewer">
-                {content.material_type === 'notes' ? (
-                  <button
-                    className="content-link"
-                    onClick={() => handleViewPdf(`http://10.10.61.161:3001/api/content/getPdf/${content.study_material}`)}
-                  >
-                    View PDF
-                  </button>
-                ) : content.material_type === 'videos' ? (
-                  <button onClick={() => openVideoModal(`http://localhost:npm /api/content/getVideo/${content.study_material}`)}>
-                  View Video
-                </button>
-                ) : content.material_type === 'ppt' ? (
-                  <a
-                    className="content-link"
-                    href={`http://10.10.61.161:3001/api/content/getPpt/${content.study_material}`}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                  >
-                    Download PPT
-                  </a>
-                ) : null}
-              </div>
-            )}
-            <p className="content-info">
-              Uploaded At: {moment(content.uploaded_at).format('MMMM DD, YYYY')}
-            </p>
-          </div>
-        ))}
+        {/* Content Display (filtered) */}
+        {contentList
+          .filter((content) => {
+            if (filters.filterType === 'notes' || filters.filterType === 'videos' || filters.filterType === 'ppt') {
+              return content.material_type === filters.filterType;
+            }
+            return true;
+          })
+          .filter((content) => {
+            if (filters.teacherNameFilter) {
+              return content.teacher_name === filters.teacherNameFilter;
+            }
+            return true;
+          })
+          .filter((content) => {
+            if (filters.classNameFilter) {
+              return content.class_name === filters.classNameFilter;
+            }
+            return true;
+          })
+          .filter((content) => {
+            if (filters.departmentFilter) {
+              return content.department === filters.departmentFilter;
+            }
+            return true;
+          })
+          .map((content) => (
+            <div key={content.id} className="content-card">
+              {/* Content details */}
+              <p className="content-info">Teacher Name: {content.teacher_name}</p>
+              <p className="content-info">Class Name: {content.class_name}</p>
+              <p className="content-info">Subject: {content.subject}</p>
+              <p className="content-info">Category: {content.category}</p>
+              <p className="content-info">Material Type: {content.material_type}</p>
+              {content.study_material && (
+                <div className="material-viewer">
+                  {content.material_type === 'notes' ? (
+                    <a
+                      className="content-link"
+                      href={`http://localhost:3000/api/content/getPdf/${content.study_material}`}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      View PDF
+                    </a>
+                  ) : content.material_type === 'videos' ? (
+                    <a
+                      className="content-link"
+                      href={`http://localhost:3000/api/content/getVideo/${content.study_material}`}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      View Video
+                    </a>
+                  ) : content.material_type === 'ppt' ? (
+                    <a
+                      className="content-link"
+                      href={`http://localhost:3000/api/content/getPpt/${content.study_material}`}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      Download PPT
+                    </a>
+                  ) : null}
+                </div>
+              )}
+              <p className="content-info">
+                Uploaded At: {moment(content.uploaded_at).format('MMMM DD, YYYY HH:mm:ss')}
+              </p>
+            </div>
+          ))}
       </div>
-
-      {/* PDF Viewer */}
-      {pdfUrl && (
-        <div className="pdf-viewer">
-          <iframe src={pdfUrl} title="PDF Viewer" width="100%" height="600px"></iframe>
-          <button className="close-pdf-button" onClick={handleClosePdfViewer}>
-            Close PDF
-          </button>
-        </div>
-      )}
-
-<Modal
-        isOpen={isVideoModalOpen}
-        onRequestClose={closeVideoModal}
-        contentLabel="Video Modal"
-        className="video-modal"
-        overlayClassName="video-modal-overlay"
-      >
-        <Video videoUrl={videoUrl} />
-        <button className="close-video-button" onClick={closeVideoModal}>
-          Close Video
-        </button>
-      </Modal>
     </div>
   );
 };

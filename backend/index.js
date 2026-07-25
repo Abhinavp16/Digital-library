@@ -3,7 +3,7 @@ const cors = require('cors');
 const session = require('express-session');
 const redis = require('redis');
 const app = express();
-const port = 3001;
+const port = 3000;
 
 const client = redis.createClient(); // Create a Redis client
 

@@ -19,8 +19,7 @@ const AdminBooks = () => {
   });
   const [departments, setDepartments] = useState([]); // State to hold departments
   const [departmentFilter, setDepartmentFilter] = useState(''); // State to filter by department
-  const [selectedPdfUrl, setSelectedPdfUrl] = useState(null);
-  const [iframeVisible, setIframeVisible] = useState(false);
+
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -30,7 +29,7 @@ const AdminBooks = () => {
 
   const fetchBooks = async () => {
     try {
-      const response = await axios.get('http://10.10.61.161:3001/api/books/getBooks');
+      const response = await axios.get('http://localhost:3000/api/books/getBooks');
       setBooks(response.data);
     } catch (error) {
       console.error('Error fetching books:', error);
@@ -39,7 +38,7 @@ const AdminBooks = () => {
 
   const fetchDepartments = async () => {
     try {
-      const response = await axios.get('http://10.10.61.161:3001/api/books/getDepartments');
+      const response = await axios.get('http://localhost:3000/api/books/getDepartments');
       setDepartments(response.data);
     } catch (error) {
       console.error('Error fetching departments:', error);
@@ -91,7 +90,7 @@ const AdminBooks = () => {
     formData.append('bookpdf', editedBook.bookpdf);
 
     try {
-      await axios.put(`http://10.10.61.161:3001/api/books/updateBook/${bookId}`, formData);
+      await axios.put(`http://localhost:3000/api/books/updateBook/${bookId}`, formData);
       setEditingBook(null); // Clear editing book
       setEditedBook({
         isbn: '',
@@ -125,7 +124,7 @@ const AdminBooks = () => {
 
   const handleDelete = async (bookId) => {
     try {
-      await axios.delete(`http://10.10.61.161:3001/api/books/deleteBook/${bookId}`);
+      await axios.delete(`http://localhost:3000/api/books/deleteBook/${bookId}`);
       fetchBooks();
     } catch (error) {
       console.error('Error deleting book:', error);
@@ -151,7 +150,7 @@ const AdminBooks = () => {
     formData.append('bookpdf', editedBook.bookpdf);
 
     try {
-      await axios.post('http://10.10.61.161:3001/api/books/addBook', formData);
+      await axios.post('http://localhost:3000/api/books/addBook', formData);
       toggleAddForm();
       setEditedBook({
         isbn: '',
@@ -203,15 +202,7 @@ const AdminBooks = () => {
     const { value } = event.target;
     setDepartmentFilter(value);
   };
-  const showIframe = (src) => {
-    setSelectedPdfUrl(src);
-    setIframeVisible(true);
-  };
 
-  const closePdfViewer = () => {
-    setSelectedPdfUrl(null);
-    setIframeVisible(false);
-  };
   return (
     <div className="admin-books-container">
       <h1>Book List</h1>
@@ -327,7 +318,7 @@ const AdminBooks = () => {
                 <tr>
                   <td>{book.id}</td>
                   <td>
-                    <img src={`http://10.10.61.161:3001/api/books/uploads/${book.bookposter}`} alt={book.title} className="book-poster" />
+                    <img src={`http://localhost:3000/api/books/uploads/${book.bookposter}`} alt={book.title} className="book-poster" />
                   </td>
                   <td>{book.isbn}</td>
                   <td>{book.title}</td>
@@ -336,7 +327,9 @@ const AdminBooks = () => {
                   <td>{book.category}</td>
                   <td>{book.department}</td>
                   <td>
-                  <button className="pdf-button" onClick={() => showIframe(`http://10.10.61.161:3001/api/books/uploads/${book.bookpdf}`)}>View PDF</button>
+                    <a href={`http://localhost:3000/api/books/uploads/${book.bookpdf}`} target="_blank" rel="noopener noreferrer">
+                      PDF
+                    </a>
                   </td>
                   <td>{book.created_at}</td>
                   <td>
@@ -414,18 +407,6 @@ const AdminBooks = () => {
             ))}
         </tbody>
       </table>
-      {iframeVisible && (
-        <div className="iframe-overlay">
-          <button className="close-pdf-button" onClick={closePdfViewer}>Close PDF</button>
-          <iframe
-            title="PDF Viewer"
-            src={selectedPdfUrl}
-            width="100%"
-            height="500px"
-            frameBorder="0"
-          />
-        </div>
-         )}
     </div>
   );
 };

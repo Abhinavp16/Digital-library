@@ -5,14 +5,14 @@
   margin-left: 250px; /* Adjust for the sidebar width */
   padding: 20px; /* Add space around content */
   transition: margin-left 0.3s ease; /* Smooth transition for content shift */
-  background-color: #f5f5f5; /* Light gray background */
+  background-color: #f0f0f0; /* Content background color */
   min-height: 100vh; /* Minimum height to cover the entire viewport */
   font-family: 'Arial', sans-serif; /* Choose a modern font */
 }
 
 /* Add Content Button Styles */
 .admin-content button {
-  background-color: #007bff; /* Blue button color */
+  background-color: #ff9900;
   color: #fff;
   border: none;
   padding: 12px 24px; /* Increase padding for a more modern look */
@@ -24,7 +24,7 @@
 }
 
 .admin-content button:hover {
-  background-color: #0056b3; /* Darker blue color on hover */
+  background-color: #0056b3; /* Darker color on hover */
 }
 
 /* Form Container Styles */
@@ -51,7 +51,7 @@
 
 /* Submit Button Styles */
 .admin-content .btn-primary {
-  background-color: #007bff; /* Blue button color */
+  background-color: #ff9900;
   color: #fff;
   border: none;
   padding: 12px 24px;
@@ -62,7 +62,7 @@
 }
 
 .admin-content .btn-primary:hover {
-  background-color: #0056b3; /* Darker blue color on hover */
+  background-color: #0056b3;
 }
 
 /* Table Styles */
@@ -96,7 +96,7 @@
 
 /* Edit and Delete Button Styles */
 .admin-content .content-table button {
-  background-color: #007bff; /* Blue button color */
+  background-color: #ff9900;
   color: #fff;
   border: none;
   padding: 8px 16px;
@@ -107,7 +107,7 @@
 }
 
 .admin-content .content-table button:hover {
-  background-color: #0056b3; /* Darker blue color on hover */
+  background-color: #0056b3;
 }
 
 /* CSS for the video viewer */
@@ -119,7 +119,7 @@
 .video-viewer a {
   display: inline-block;
   padding: 10px 20px;
-  background-color: #007bff; /* Blue background color */
+  background-color: #007bff; /* Change to your desired background color */
   color: #fff; /* Text color */
   text-decoration: none; /* Remove underlines from links */
   border-radius: 4px; /* Rounded corners */
@@ -127,9 +127,8 @@
 }
 
 .video-viewer a:hover {
-  background-color: #0056b3; /* Darker blue color on hover */
+  background-color: #0056b3; /* Change to a darker shade on hover */
 }
-
 /* Filter container */
 .filter-container {
   display: flex;
@@ -152,149 +151,4 @@
   border: 1px solid #ccc;
   font-size: 16px;
   outline: none;
-}
-
-/* Button container */
-.button-container {
-  margin-top: 10px; /* Adjust the margin-top to your desired spacing */
-}
-
-/* Additional styling for buttons (optional) */
-.button-container button {
-  margin-right: 10px; /* Adjust the margin-right for horizontal spacing between buttons */
-}
-
-/* PDF Modal Styles */
-.pdf-modal {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  background-color: #fff;
-  padding: 20px;
-  border-radius: 5px;
-  box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.2);
-  max-width: 90%;
-  max-height: 90%;
-  overflow: auto;
-}
-
-.pdf-modal-overlay {
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background-color: rgba(0, 0, 0, 0.5);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  z-index: 1000;
-}
-
-.close-pdf-button {
-  background-color: #ff0000; /* Red close button color */
-  color: #fff;
-  border: none;
-  padding: 8px 16px;
-  cursor: pointer;
-  font-size: 14px;
-  border-radius: 5px;
-  transition: background-color 0.3s ease;
-  margin-top: 10px;
-}
-
-.close-pdf-button:hover {
-  background-color: #cc0000; /* Darker red color on hover */
-}
-/* video-modal.css */
-
-/* Style for the overlay background */
-.video-modal-overlay {
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background-color: rgba(0, 0, 0, 0.7); /* Semi-transparent black background */
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  z-index: 1000; /* Ensure the modal is on top of other content */
-}
-
-/* Style for the video modal content */
-.video-modal {
-  position: relative;
-  background-color: #fff; /* White background for the modal */
-  border-radius: 4px;
-  padding: 20px;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2); /* Box shadow for a subtle elevation effect */
-  max-width: 80%;
-  max-height: 80%;
-  overflow: auto; /* Enable scrolling if the content exceeds the modal's dimensions */
-  text-align: center;
-}
-
-/* Style for the video element inside the modal */
-.video-modal video {
-  max-width: 100%;
-  max-height: 100%;
-}
-
-/* Style for the close button */
-.close-video-button {
-  position: absolute;
-  top: 10px;
-  right: 10px;
-  background: transparent;
-  border: none;
-  color: #333;
-  font-size: 20px;
-  cursor: pointer;
-  padding: 0;
-}
-
-.close-video-button:hover {
-  color: #ff0000; /* Change color on hover if desired */
-}
-
-/* You can add additional styles to customize the appearance of the modal */
-/* Styling for the success message */
-.success-message {
-  background-color: #4CAF50; /* Green background color */
-  color: white; /* White text color */
-  padding: 10px; /* Add padding to the message */
-  margin-bottom: 10px; /* Add space below the message */
-  border-radius: 5px; /* Add rounded corners */
-  text-align: center; /* Center-align the text */
-  font-size: 16px; /* Increase font size */
-  font-weight: bold; /* Make text bold */
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Add a subtle shadow */
-}
-
-/* Style for the close button in the success message */
-.success-message .close-button {
-  cursor: pointer;
-  color: white;
-  font-size: 20px;
-  position: absolute;
-  top: 0;
-  right: 10px;
-  padding: 5px;
-  transition: 0.3s;
-}
-
-.success-message .close-button:hover {
-  background-color: #45a049; /* Darker green on hover */
-}
-
-/* Media query for responsive design */
-@media (max-width: 600px) {
-  .success-message {
-    font-size: 14px; /* Decrease font size for small screens */
-  }
-  .success-message .close-button {
-    font-size: 18px; /* Increase font size for the close button on small screens */
-  }
 }

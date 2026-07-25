@@ -1,8 +1,8 @@
 const mysql = require('mysql');
 
 const bookDb = mysql.createConnection({
-  host: '10.10.61.161',
-  user: 'disha',
+  host: 'localhost',
+  user: 'root',
   password: '',
   database: 'digital_library', // Your database name
 });

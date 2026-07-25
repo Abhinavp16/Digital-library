@@ -1,25 +1,14 @@
 import React from 'react';
-import styled, { keyframes } from 'styled-components';
-
-// Keyframes for animations
-const fadeIn = keyframes`
-  from {
-    opacity: 0;
-  }
-  to {
-    opacity: 1;
-  }
-`;
+import styled from 'styled-components';
 
 // Styled components
 const Container = styled.div`
   background-color: #fff;
   max-width: 60%;
   margin: 20px auto;
-  padding: 2rem;
+  padding: 5rem;
   border-radius: 8px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-  animation: ${fadeIn} 0.5s ease; /* Fade-in animation */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 `;
 
 const Title = styled.h2`
@@ -49,9 +38,6 @@ const ContactInfo = styled.div`
   background-color: #e6dada;
   padding: 30px;
   text-align: center;
-  border-radius: 8px;
-  margin-top: 20px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 `;
 
 const ContactTitle = styled.h2`

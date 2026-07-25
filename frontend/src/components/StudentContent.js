@@ -8,7 +8,7 @@ const StudentContent = () => {
 
   const fetchContent = async () => {
     try {
-      const response = await axios.get('http://localhost:3001/api/content/getContent');
+      const response = await axios.get('http://localhost:3000/api/content/getContent');
       setContentList(response.data);
     } catch (error) {
       console.error('Error fetching content:', error);
