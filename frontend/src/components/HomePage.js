@@ -1,7 +1,14 @@
 import React, { useState,useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faUser, faBook, faInfoCircle, faFile } from '@fortawesome/free-solid-svg-icons';
+import {
+  faUser,
+  faBook,
+  faInfoCircle,
+  faFile,
+  faBookOpen,
+} from '@fortawesome/free-solid-svg-icons';
+import { faFacebookF, faInstagram, faTwitter, faYoutube } from '@fortawesome/free-brands-svg-icons';
 
 import '../styles/HomePage.css';
 
@@ -144,28 +151,32 @@ function HomePage({ setUserRole }) {
 
   return (
     <div>
-      {/* Navigation Bar */}
-      <div className="navbar">
-        <a href="#" className="logo">
-          <img src="/images/dlimage1.png" alt="E-Library Logo" />
-        </a>
-        <Link to="/books" className="right button">
-        <span className="icon-container">
-          <FontAwesomeIcon icon={faBook} fade />  Books</span>
+      {/* Primary Navigation */}
+      <nav className="navbar" aria-label="Primary navigation">
+        <Link to="/" className="logo" aria-label="Digital Library home">
+          <img src="/images/dlimage1.png" alt="Digital Library - Disha College" />
         </Link>
-        <Link to="/contents" className="right button">
-        <span className="icon-container">
-          <FontAwesomeIcon icon={faFile} fade/> Notes</span>
-        </Link>
-        <Link to="/about-us" className="right button">
-        <span className="icon-container">
-          <FontAwesomeIcon icon={faInfoCircle} fade/>  About Us </span>
-        </Link>
-        {/* Login Button */}
-        <button className="button" id="loginButton" onClick={handleLoginButtonClick}>
-          <FontAwesomeIcon icon={faUser} fade /> Login
+
+        <div className="nav-links">
+          <Link to="/books" className="nav-link">
+            <FontAwesomeIcon icon={faBook} />
+            <span>Books</span>
+          </Link>
+          <Link to="/contents" className="nav-link">
+            <FontAwesomeIcon icon={faFile} />
+            <span>Notes</span>
+          </Link>
+          <Link to="/about-us" className="nav-link">
+            <FontAwesomeIcon icon={faInfoCircle} />
+            <span>About Us</span>
+          </Link>
+        </div>
+
+        <button className="nav-login" type="button" onClick={handleLoginButtonClick}>
+          <FontAwesomeIcon icon={faUser} />
+          <span>Login</span>
         </button>
-      </div>
+      </nav>
       {/*Login Form*/}
       <div id="loginFormContainer" style={{ display: showLoginForm ? 'block' : 'none' }}>
         <form id="loginForm" onSubmit={handleLogin}>
@@ -206,6 +217,25 @@ function HomePage({ setUserRole }) {
           {loginSuccess && <p className="login-success">Login successful!</p>}
         </form>
       </div>
+
+      {/* Hero Section */}
+      <section className="hero-section">
+        <div className="hero-overlay"></div>
+        <div className="hero-content">
+          <img src="/images/dlimage1.png" alt="Digital Library" className="hero-logo" />
+          <h1 className="hero-title">Digital Library</h1>
+          <p className="hero-subtitle">Disha College</p>
+          <p className="hero-description">Your Gateway to Knowledge and Learning Excellence</p>
+          <div className="hero-buttons">
+            <Link to="/books" className="hero-btn hero-btn-primary">
+              <FontAwesomeIcon icon={faBook} /> Explore Books
+            </Link>
+            <Link to="/contents" className="hero-btn hero-btn-secondary">
+              <FontAwesomeIcon icon={faFile} /> Browse Notes
+            </Link>
+          </div>
+        </div>
+      </section>
    
       {/* Grid View */}
       <section className="u-clearfix u-section-2" id="sec-abd3">
@@ -227,94 +257,76 @@ function HomePage({ setUserRole }) {
           </div>
         </div>
       </section>
-      <section>
-      <div className="responsive-container-block outer-container">
-      <div className="responsive-container-block inner-container">
-        <p className="text-blk heading-text">
-          OUR TEAM
-        </p>
-        <div className="responsive-container-block cards-container">
-          <div className="responsive-cell-block wk-desk-4 wk-ipadp-4 wk-mobile-12 wk-tab-12 card-container">
-            <p className="text-blk name">
-              Harsh Rana
+
+      {/* Clean, professional site footer */}
+      <footer className="clean-footer">
+        <div className="clean-footer-main">
+          <section>
+            <h2>Digital Library</h2>
+            <p>
+              Your gateway to knowledge and learning resources. Explore books, notes, and
+              educational material in one place.
             </p>
-            <p className="text-blk position">
-              Full Stack Developer
-            </p>
-            <div className="team-member-image-container">
-            <img className="team-member-image" src="/images/harsh.jpg" alt="Instructor 1" />
+            <img
+              className="clean-footer-brand-logo"
+              src="/images/dlimage1.png"
+              alt="Digital Library, Disha College"
+            />
+          </section>
+
+          <section>
+            <h3>Quick Links</h3>
+            <ul className="clean-footer-links">
+              <li><Link to="/books">Books</Link></li>
+              <li><Link to="/contents">Notes</Link></li>
+              <li><Link to="/about-us">About Us</Link></li>
+            </ul>
+          </section>
+
+          <section>
+            <h3>Contact</h3>
+            <ul className="clean-footer-contact">
+              <li>Disha College, Raipur (C.G.)</li>
+              <li>library@dishacollege.edu</li>
+              <li>+91 1234567890</li>
+            </ul>
+          </section>
+
+          <section>
+            <h3>Stay Connected</h3>
+            <div className="clean-footer-socials">
+              <a href="https://www.facebook.com/" target="_blank" rel="noreferrer" aria-label="Facebook">
+                <FontAwesomeIcon icon={faFacebookF} />
+              </a>
+              <a href="https://www.instagram.com/" target="_blank" rel="noreferrer" aria-label="Instagram">
+                <FontAwesomeIcon icon={faInstagram} />
+              </a>
+              <a href="https://twitter.com/" target="_blank" rel="noreferrer" aria-label="Twitter">
+                <FontAwesomeIcon icon={faTwitter} />
+              </a>
+              <a href="https://www.youtube.com/" target="_blank" rel="noreferrer" aria-label="YouTube">
+                <FontAwesomeIcon icon={faYoutube} />
+              </a>
             </div>
-          </div>
-          <div className="responsive-cell-block wk-desk-4 wk-ipadp-4 wk-mobile-12 wk-tab-12 card-container">
-            <p className="text-blk name">
-              Abhinav Pandey 
-            </p>
-            <p className="text-blk position">
-              Front End Developer
-            </p>
-            <div className="team-member-image-container">
-            <img className="team-member-image" src="/images/abhinav.jpg" alt="Instructor 2" />
+            <div className="clean-footer-counter">
+              <FontAwesomeIcon icon={faBookOpen} />
+              <div>
+                <span>Total visitors</span>
+                <strong>{visitorCount.toLocaleString()}</strong>
+              </div>
             </div>
-          </div>
-          <div className="responsive-cell-block wk-desk-4 wk-ipadp-4 wk-mobile-12 wk-tab-12 card-container">
-            <p className="text-blk name">
-              Priyansh Kesharwani
-            </p>
-            <p className="text-blk position">
-              Front End Developer
-            </p>
-            <div className="team-member-image-container">
-            <img className="team-member-image" src="/images/priyansh.jpg" alt="Instructor 3" />
-            </div>
-          </div>
-         
-          
+          </section>
         </div>
-      </div>
-    </div>
-      </section>
-      <footer>
-      <div className="footer-social-icons">
-        <a href="#" target="_blank">
-          <i className="fab fa-facebook-f"></i>
-        </a>
-        <a href="#" target="_blank">
-          <i className="fab fa-twitter"></i>
-        </a>
-        <a href="#" target="_blank">
-          <i className="fab fa-instagram"></i>
-        </a>
-      </div>
 
-      <div className="footer-content">
-        <b>
-          <p>&copy; 2023 Digital Library. All rights reserved. Disha College, Raipur(C.G.)</p>
-        </b>
-      </div>
-
-      <div className="footer-social-icons">
-        <a href="#" target="_blank">
-          <i className="fab fa-facebook-f"></i>
-        </a>
-        <a href="#" target="_blank">
-          <i className="fab fa-twitter"></i>
-        </a>
-        <a href="#" target="_blank">
-          <i className="fab fa-instagram"></i>
-        </a>
-      </div>
-
-      <div className="visitor-counter">
-        <a href="https://www.hitwebcounter.com" target="_blank" rel="noopener noreferrer">
-          <img
-            src="https://hitwebcounter.com/counter/counter.php?page=9273137&style=0010&nbdigits=5&type=page&initCount=0"
-            title="Counter Widget"
-            alt="Visit counter For Websites"
-            border="0"
-          />
-        </a>
-      </div>
-    </footer>
+        <div className="clean-footer-bottom">
+          <p>&copy; {new Date().getFullYear()} Digital Library - Disha College. All rights reserved.</p>
+          <div className="clean-footer-legal">
+            <a href="/privacy-policy">Privacy Policy</a>
+            <span>|</span>
+            <a href="/terms-of-service">Terms of Service</a>
+          </div>
+        </div>
+      </footer>
 
       {/* Login Form hidden */}
       <div id="loginFormContainer" style={{ display: showLoginForm ? 'block' : 'none' }}>
