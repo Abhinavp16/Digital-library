@@ -2,9 +2,9 @@ const mysql = require('mysql2/promise');
 
 const contentDb = {
   config: {
-    host: 'localhost',
-    user: 'root',
-    password: '',
+    host: process.env.DB_HOST || 'localhost',
+    user: process.env.DB_USER || 'root',
+    password: process.env.DB_PASSWORD || '',
     database: 'content_db', // Your content database name
   },
 
