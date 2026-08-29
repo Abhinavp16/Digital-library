@@ -4,6 +4,8 @@
   "description": "student record ",
   "main": "index.js",
   "scripts": {
+    "start": "node index.js",
+    "dev": "nodemon index.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "",
@@ -14,6 +16,7 @@
     "convert-excel-to-json": "^1.7.0",
     "cors": "^2.8.5",
     "crypto": "^1.0.1",
+    "dotenv": "^17.4.2",
     "ejs": "^3.1.9",
     "express": "^4.18.2",
     "express-session": "^1.17.3",
@@ -24,5 +27,8 @@
     "redis": "^4.6.10",
     "sequelize": "^6.32.1",
     "sequelize-cli": "^6.6.1"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.14"
   }
 }
