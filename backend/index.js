@@ -1,14 +1,35 @@
+require('dotenv').config();
 const express = require('express');
 const cors = require('cors');
-const session = require('express-session');
 const redis = require('redis');
 const app = express();
-const port = 3000;
+const port = process.env.PORT || 3000;
 
-const client = redis.createClient(); // Create a Redis client
+const client = redis.createClient({ url: process.env.REDIS_URL || 'redis://localhost:6379' }); // Create a Redis client (redis v4 promise API)
 
 app.use(cors());
 app.use(express.json());
+
+// Middleware to increment visitor count on each request
+app.use(async (req, res, next) => {
+  try {
+    await client.incr('visitorCount');
+    next();
+  } catch (err) {
+    console.error('Error incrementing visitor count:', err);
+    res.status(500).json({ error: 'Internal Server Error' });
+  }
+});
+
+app.get('/api/visitors/count', async (req, res) => {
+  try {
+    const count = await client.get('visitorCount');
+    res.json({ count: parseInt(count) || 0 });
+  } catch (err) {
+    console.error('Error fetching visitor count:', err);
+    res.status(500).json({ error: 'Internal Server Error' });
+  }
+});
 
 const studentsRoutes = require('./routes/studentsRoutes');
 const teacherRoutes = require('./routes/teacherRoutes');
@@ -26,29 +47,19 @@ app.use('/api/studentlogin', studentLogin);
 app.use('/api/teacherlogin', teacherLogin);
 app.use('/api/adminlogin', adminLogin);
 
-// Middleware to increment visitor count on each request
-app.use((req, res, next) => {
-  client.incr('visitorCount', (err, count) => {
-    if (err) {
-      console.error('Error incrementing visitor count:', err);
-      res.status(500).json({ error: 'Internal Server Error' });
-    } else {
-      next();
-    }
-  });
-});
+async function start() {
+  try {
+    client.on('error', (err) => console.error('Redis Client Error:', err));
+    await client.connect();
+    console.log('Connected to Redis');
 
-app.get('/api/visitors/count', (req, res) => {
-  client.get('visitorCount', (err, count) => {
-    if (err) {
-      console.error('Error fetching visitor count:', err);
-      res.status(500).json({ error: 'Internal Server Error' });
-    } else {
-      res.json({ count: parseInt(count) || 0 });
-    }
-  });
-});
+    app.listen(port, () => {
+      console.log(`Server is running on port ${port}`);
+    });
+  } catch (err) {
+    console.error('Failed to start server:', err);
+    process.exit(1);
+  }
+}
 
-app.listen(port, () => {
-  console.log(`Server is running on port ${port}`);
-});
+start();
